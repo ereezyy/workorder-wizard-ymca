@@ -6,29 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "vercel-build": "npm ci --legacy-peer-deps && npm rebuild tailwindcss-animate && npm run build",
-    "postinstall": "npx npm-force-resolutions && npm rebuild tailwindcss-animate",
-    "prepare-vercel": "node ./scripts/prepare-vercel-build.js",
-    "preinstall": "npm install -g npm-force-resolutions",
-    "check-animate": "node -e \"try { require.resolve('tailwindcss-animate'); console.log('tailwindcss-animate is installed correctly'); } catch(e) { console.error('tailwindcss-animate NOT FOUND:', e.message); process.exit(1); }\""
+    "lint": "next lint"
   },
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=8.0.0",
-    "yarn": ">=1.22.0"
-  },
-  "resolutions": {
-    "tailwindcss-animate": "^1.0.7"
-  },
-  "overrides": {
-    "tailwindcss-animate": "^1.0.7"
-  },
-  "dependenciesMeta": {
-    "tailwindcss-animate": {
-      "built": false,
-      "unplugged": true
-    }
+    "npm": ">=8.0.0"
   },
   "dependencies": {
     "next": "14.0.0",
@@ -41,11 +23,9 @@
     "firebase": "^9.23.0",
     "axios": "^1.5.0",
     "lucide-react": "^0.288.0",
-    "class-variance-authority": "^0.7.0",
-    "tailwindcss-animate": "^1.0.7"
+    "class-variance-authority": "^0.7.0"
   },
   "devDependencies": {
-    "npm-force-resolutions": "^0.0.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

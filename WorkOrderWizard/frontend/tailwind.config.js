@@ -1,40 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-// Ensure tailwindcss-animate is available for Vercel deployment
-let animatePlugin;
-try {
-  // First try the standard require
-  animatePlugin = require("tailwindcss-animate");
-  console.log("Successfully loaded tailwindcss-animate");
-} catch (error) {
-  console.warn('Initial load of tailwindcss-animate failed:', error.message);
-
-  try {
-    // Try with a node_modules path resolution as fallback
-    animatePlugin = require("./node_modules/tailwindcss-animate");
-    console.log("Successfully loaded tailwindcss-animate from node_modules path");
-  } catch (secondError) {
-    console.warn('Second attempt to load tailwindcss-animate failed:', secondError.message);
-
-    // Create a synthetic plugin that mimics the basic structure
-    console.warn('Using synthetic fallback for tailwindcss-animate');
-    animatePlugin = {
-      handler: function() {
-        // Empty handler that will be called by Tailwind
-        return {};
-      }
-    };
-  }
-}
-
-// Verify if the plugin has the expected structure
-if (typeof animatePlugin !== 'function' && !animatePlugin.handler) {
-  console.warn('animatePlugin is not in the expected format, creating a compatible wrapper');
-  const originalPlugin = animatePlugin;
-  animatePlugin = function(options) {
-    return originalPlugin;
-  };
-}
-
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -107,16 +71,42 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+  },
   plugins: [
-    // Add the animate plugin with proper error handling
-    function(options) {
-      try {
-        return animatePlugin(options);
-      } catch (error) {
-        console.error('Error while applying tailwindcss-animate plugin:', error.message);
-        return {}; // Return empty plugin to prevent build failure
-      }
+    // Built-in animation plugin that applies the keyframe animations defined above
+    function animationPlugin({ addUtilities, matchUtilities, theme }) {
+      // Add basic utilities for animations defined in the config
+      const utilities = {};
+      const animations = theme('animation');
+
+      // Create animation utilities based on theme animations
+      Object.entries(animations).forEach(([name, value]) => {
+        utilities[`.${name}`] = { animation: value };
+      });
+
+      // Add utilities like .animate-none, .animate-spin, etc.
+      utilities['.animate-none'] = { animation: 'none' };
+
+      // Apply the generated utilities
+      addUtilities(utilities);
+
+      // Add match utilities for animation properties like duration, delay, etc.
+      matchUtilities(
+        {
+          'animate-delay': (value) => ({
+            animationDelay: value,
+          }),
+          'animate-duration': (value) => ({
+            animationDuration: value,
+          }),
+          'animate-iteration': (value) => ({
+            animationIterationCount: value,
+          }),
+        },
+        { values: theme('animationDelay', {}) }
+      );
+
+      return {}; // Return empty object as needed
     }
   ],
-}
 }
