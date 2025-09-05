@@ -15,7 +15,7 @@ Copy these commands and run them ONE AT A TIME in Command Prompt:
 ```bash
 cd c:\Users\EDWoo\Downloads\WO\WorkOrderWizard
 
-git remote add origin https://github.com/YOUR_USERNAME/workorder-wizard-ymca.git
+git remote add origin https://github.com/ereezyy/workorder-wizard-ymca.git
 
 git branch -M main
 

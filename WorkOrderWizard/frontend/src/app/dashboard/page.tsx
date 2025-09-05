@@ -1,11 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import NotificationCenter from '@/components/NotificationCenter'
 import AdvancedFilters from '@/components/AdvancedFilters'
 import EquipmentScheduler from '@/components/EquipmentScheduler'
 import FileUpload from '@/components/FileUpload'
-import { useWebSocket } from '@/hooks/useWebSocket'
+// Temporarily disabled WebSocket features for deployment
+// import NotificationCenter from '@/components/NotificationCenter'
+// import { useWebSocket } from '@/hooks/useWebSocket'
 
 interface WorkOrder {
   id: string
@@ -23,9 +24,9 @@ export default function DashboardPage() {
   const [filters, setFilters] = useState({})
   const [activeTab, setActiveTab] = useState<'work-orders' | 'equipment'>('work-orders')
   
-  // Assuming user token is stored after login
-  const userToken = typeof window !== 'undefined' ? localStorage.getItem('userToken') || '' : ''
-  const { isConnected, notifications, joinWorkOrder } = useWebSocket({ token: userToken })
+  // Temporarily disabled WebSocket features for deployment
+  // const userToken = typeof window !== 'undefined' ? localStorage.getItem('userToken') || '' : ''
+  // const { isConnected, notifications, joinWorkOrder } = useWebSocket({ token: userToken })
 
   useEffect(() => {
     async function fetchWorkOrders() {
@@ -68,14 +69,14 @@ export default function DashboardPage() {
     fetchWorkOrders()
   }, [])
 
-  // Join work order rooms for real-time updates
-  useEffect(() => {
-    if (isConnected) {
-      workOrders.forEach(order => {
-        joinWorkOrder(order.id)
-      })
-    }
-  }, [isConnected, workOrders, joinWorkOrder])
+  // Temporarily disabled WebSocket features for deployment
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     workOrders.forEach(order => {
+  //       joinWorkOrder(order.id)
+  //     })
+  //   }
+  // }, [isConnected, workOrders, joinWorkOrder])
 
   const handleFiltersChange = (newFilters: any) => {
     setFilters(newFilters)
@@ -106,8 +107,6 @@ export default function DashboardPage() {
             <div className="flex items-center space-x-4">
               <span className="text-sm font-medium">Admin User</span>
               <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">admin</span>
-              <NotificationCenter token={userToken} />
-              <div className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'}`} />
             </div>
           </div>
         </div>
