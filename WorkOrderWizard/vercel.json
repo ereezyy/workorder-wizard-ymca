@@ -3,7 +3,11 @@
   "builds": [
     {
       "src": "frontend/package.json",
-      "use": "@vercel/next"
+      "use": "@vercel/next",
+      "config": {
+        "installCommand": "cd .. && npm install && cd frontend && npm install --legacy-peer-deps && npm rebuild tailwindcss-animate",
+        "buildCommand": "npm run vercel-build"
+      }
     }
   ],
   "routes": [
@@ -11,5 +15,11 @@
       "src": "/(.*)",
       "dest": "frontend/$1"
     }
-  ]
+  ],
+  "github": {
+    "silent": true,
+    "autoAlias": true
+  },
+  "installCommand": "npm install && cd frontend && npm install --legacy-peer-deps && npm rebuild tailwindcss-animate",
+  "buildCommand": "cd frontend && npm run vercel-build"
 }
